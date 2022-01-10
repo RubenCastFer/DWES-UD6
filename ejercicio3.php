@@ -61,7 +61,9 @@ class Persona{
             return $this->nombre.$this->dni.$this->sexo.$this->peso.$this->altura;
         }
         
-
+        public function __toString(){
+            return $this->nombre.$this->dni.$this->sexo.$this->peso.$this->altura;
+        }
     }
 
     class Trabajador extends GlobalPersona{
@@ -88,15 +90,19 @@ class Persona{
             return parent::mostrar().$this->nombreEmpresa;
         }
 
+        public function __toString(){
+            return parent::__toString().$this->nombreEmpresa;
+        }
+
     }
     $persona1 = new Persona("ruben","48963910s","hombre",100,184);
     $trabajador = new Trabajador("ruben","48963910s","hombre",100,184,"ies poligono sur");
-    echo $trabajador->mostrar();
+    echo $trabajador;
     $persona1->setNombre("ana");
     $persona1->setDNI("32037256g");
     $persona1->setSexo("mujer");
     $persona1->setPeso(64);
     $persona1->setAltura(168);
     echo "<br>";    
-    echo $trabajador->mostrarTodo();
+    echo $persona1;
 ?>
