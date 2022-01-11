@@ -20,7 +20,7 @@
             if ($value>1 && is_float($value)){
                 $this->name=$value;
             }else{
-                echo "error";
+                echo "error __setDi";
                 exit();
             }
             
