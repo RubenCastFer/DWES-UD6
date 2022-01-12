@@ -12,16 +12,16 @@
 
         public function __get($name)
         {
-            return $this->name;
+            return $this->$name;
         }
 
         public function __set($name, $value)
         {
             if ($value>1 && is_float($value)){
-                $this->name=$value;
+                $this->$name=$value;
             }else{
                 echo "error __setDi";
-                exit();
+                die();
             }
             
         }
