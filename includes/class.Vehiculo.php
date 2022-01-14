@@ -17,11 +17,11 @@
         }
 
         public function circula(){
-
+            echo "El vehículo está circulando";
         }
 
         public function añadir_persona($pesoPersona){
-
+            $this->peso = $this->peso+$pesoPersona;
         }
     }
 
