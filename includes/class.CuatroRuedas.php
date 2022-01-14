@@ -26,6 +26,10 @@
         public function repintar($color){
             $this->color=$color;
         }
+
+        public function añadir_persona($pesoPersona){
+            $this->peso = $this->peso+$pesoPersona;
+        }
     }
 
 ?>

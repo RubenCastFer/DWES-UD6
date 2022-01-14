@@ -27,6 +27,10 @@
             $peso=$litros*1.5;
             $this->peso=$this->peso+$peso;
         }
+
+        public function añadir_persona($pesoPersona){
+            $this->peso = $this->peso+$pesoPersona+1.5;
+        }
     }
 
 ?>
