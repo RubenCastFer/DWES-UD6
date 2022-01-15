@@ -2,6 +2,7 @@
     abstract class Vehiculo{
         private string $color;
         private float $peso;
+        private static int $numeroCambioColor = 0;
 
         public function __construct($color, $peso){
             $this->color=$color;
@@ -9,7 +10,20 @@
         }
              
         public function __set($name, $value){
-            $this->$name=$value;
+            switch ($name) {
+                case 'color':
+                    $this->numeroCambioColor=$this->numeroCambioColor+1;
+                    $this->$name=$value;
+                    break;
+                case 'peso':
+                    if ($value<=2100) {
+                        $this->$name=$value;
+                    }
+                    break;
+                default:
+                    $this->$name=$value;
+                    break;
+            }
         }
 
         public function __get($name){
@@ -21,16 +35,12 @@
         }
 
         abstract function añadir_persona($pesoPersona);
-        // {
-        //     $this->peso = $this->peso+$pesoPersona;
-        // }
 
         static function verAtributo($obj){
-            
-            foreach ($obj as $key => $valor) {
-                echo $key;
+            foreach ($obj as $key => $value) {
+                echo $key.": ".$value;
                 echo "<br>";
-            }
+            }        
         }
     }
 

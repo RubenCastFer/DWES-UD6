@@ -30,6 +30,14 @@
         public function añadir_persona($pesoPersona){
             $this->peso = $this->peso+$pesoPersona;
         }
+
+        static function verAtributo($obj){
+            foreach ($obj as $key => $value) {
+                echo $key.": ".$value;
+                echo "<br>";
+            }        
+            parent::verAtributo($obj);
+        }
     }
 
 ?>

@@ -29,5 +29,20 @@
         public function quitarCadenasNieve($num){
             $this->numeroCadenasNieve=$this->numeroCadenasNieve-$num;            
         }
+
+        static function verAtributo($obj){
+            foreach ($obj as $key => $value) {
+                echo $key.": ".$value;
+                echo "<br>";
+            }        
+            parent::verAtributo($obj);
+        }
+
+        public function añadir_persona($pesoPersona){
+            parent::añadir_persona($pesoPersona);
+            if ($this->peso>=1500 && $this->numeroCadenasNieve<=2) {
+                echo "Atencion, ponga 4 cadenas para la nieve.";
+            }
+        }
     }
 ?>
