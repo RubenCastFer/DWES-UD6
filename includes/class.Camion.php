@@ -26,12 +26,5 @@
             $this->longitud=$this->longitud+$longitudRemolque;
         }
 
-        static function verAtributo($obj){
-            foreach ($obj as $key => $value) {
-                echo $key.": ".$value;
-                echo "<br>";
-            }        
-            parent::verAtributo($obj);
-        }
     }
 ?>

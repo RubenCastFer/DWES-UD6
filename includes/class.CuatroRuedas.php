@@ -13,7 +13,8 @@
                 $this->$name=$value;
              }else{
                 parent::__set($name,$value);
-             }        }
+             }        
+        }
 
         public function __get($name){
             if (property_exists(get_class(),$name)) {
@@ -27,17 +28,10 @@
             $this->color=$color;
         }
 
-        public function añadir_persona($pesoPersona){
+        public function añadirPersona($pesoPersona){
             $this->peso = $this->peso+$pesoPersona;
         }
 
-        static function verAtributo($obj){
-            foreach ($obj as $key => $value) {
-                echo $key.": ".$value;
-                echo "<br>";
-            }        
-            parent::verAtributo($obj);
-        }
     }
 
 ?>

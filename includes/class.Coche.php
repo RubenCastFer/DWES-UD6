@@ -27,21 +27,17 @@
         }
 
         public function quitarCadenasNieve($num){
-            $this->numeroCadenasNieve=$this->numeroCadenasNieve-$num;            
+            if ($this->numeroCadenasNieve<$num) {
+                $this->numeroCadenasNieve=0;
+            }else{
+                $this->numeroCadenasNieve=$this->numeroCadenasNieve-$num;            
+            }
         }
 
-        static function verAtributo($obj){
-            foreach ($obj as $key => $value) {
-                echo $key.": ".$value;
-                echo "<br>";
-            }        
-            parent::verAtributo($obj);
-        }
-
-        public function añadir_persona($pesoPersona){
-            parent::añadir_persona($pesoPersona);
+        public function añadirPersona($pesoPersona){
+            parent::añadirPersona($pesoPersona);
             if ($this->peso>=1500 && $this->numeroCadenasNieve<=2) {
-                echo "Atencion, ponga 4 cadenas para la nieve.";
+                echo "Atencion, ponga 4 cadenas para la nieve.<br>";
             }
         }
     }
