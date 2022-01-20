@@ -17,4 +17,5 @@
       echo $cine.'<br>';
    echo $copia;
 
+   phpinfo();
 ?>
