@@ -28,7 +28,7 @@
             $this->peso=$this->peso+$peso;
         }
 
-        public function añadir_persona($pesoPersona){
+        public function añadirPersona($pesoPersona){
             $this->peso = $this->peso+$pesoPersona+1.5;
         }
 
