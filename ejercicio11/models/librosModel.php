@@ -18,7 +18,7 @@
      
     function getLibroConcreto($num){
         $db=getConnection();
-        $result = $db->query('SELECT titulo, precio FROM libros WHERE id=:id');
+        $result = $db->prepare('SELECT titulo, precio FROM libros WHERE id=:id');
         $result->bindParam(":id",$num);
         $result->execute();
         while ($libro=$result->fetch()){
