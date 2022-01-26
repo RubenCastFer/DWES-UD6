@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="index.php">Página principal</a></li>
-                <li><a href="create.php">Nuevo elemento</a></li>
+                <li><a href="index.php?controller=videoJuegos&action=crearEditar">Nuevo elemento</a></li>
                 <li><a class="active" href="list.php">Lista elementos</a></li>
                 <li><a href="import.php">Importar elementos</a></li>
                 <li><a href="exportar.php">Exportar elementos</a></li>
