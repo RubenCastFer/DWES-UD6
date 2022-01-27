@@ -19,7 +19,7 @@
 
             </ul>
         </nav>
-        <form class="form-register" action="index.php?controller=videoJuegos&action=modificar" enctype="multipart/form-data" method="POST">
+        <form class="form-register" action="index.php?controller=videoJuegos&action=cribar" enctype="multipart/form-data" method="POST">
             <h2 class="form-titulo">Características:</h2>
             <div class="contenedor-inputs">
                 <input type="hidden" name="id" value="<?php echo $resultado["id"]?>"><!--aquí va el id, es hidden por lo tanto no es visible en la web, pero si accesible desde PHP -->
