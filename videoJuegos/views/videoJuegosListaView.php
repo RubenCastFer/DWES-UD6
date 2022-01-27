@@ -13,7 +13,7 @@
         <ul>
             <li><a href="index.php">Página principal</a></li>
             <li><a href="index.php?controller=videoJuegos&action=mostraForm">Nuevo elemento</a></li>
-            <li><a class="active" href="list.php">Lista elementos</a></li>
+            <li><a class="active" href="index.php">Lista elementos</a></li>
             <li><a href="import.php">Importar elementos</a></li>
             <li><a href="exportar.php">Exportar elementos</a></li>
 
@@ -45,7 +45,7 @@
                     echo "<td>$juego[Lanzamiento]</td>";
                     echo "<td><a href=index.php?controller=videoJuegos&action=juegoConcreto&varId=$juego[id]>Detalle</a></td>";
                     echo "<td><a href=index.php?controller=videoJuegos&action=mostraForm&varId=$juego[id]>Editar</a></td>";
-                    echo "<td><a href=delete.php?varId=$juego[id]>Borrar</a></td>";
+                    echo "<td><a href=index.php?controller=videoJuegos&action=borrar&varId=$juego[id]>Borrar</a></td>";
                     echo "</tr> ";
                 }   
             ?>

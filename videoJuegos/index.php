@@ -3,7 +3,7 @@
 
         define('DEFAULT_CONTROLLER', "videoJuegos");
 
-        define('DEFAULT_ACTION', "videoJuegos");
+        define('DEFAULT_ACTION', "listar");
 
     $controller = DEFAULT_CONTROLLER;
     if (!empty($_GET['controller'])) {
