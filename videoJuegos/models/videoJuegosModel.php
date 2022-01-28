@@ -80,6 +80,34 @@
             return false;
         }
     }
+    function comprobarContrasenay($dni){
 
+        try {
+            $conexion = new PDO("mysql:host=$GLOBALS[servidor];dbname=$GLOBALS[baseDatos]", $GLOBALS['user'], $GLOBALS['pass']);
+            $consulta = $conexion->prepare("SELECT `id`, `contrasenya` FROM `persona` WHERE `nif` LIKE :dni");
+            $parametros = array(":dni" => $dni);
+            $consulta->execute($parametros);
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+            $conexion = null;
+            return $resultado;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    function personaTipo($id){
+    
+        try {
+            $conexion = new PDO("mysql:host=$GLOBALS[servidor];dbname=$GLOBALS[baseDatos]", $GLOBALS['user'], $GLOBALS['pass']);
+            $consulta = $conexion->prepare("SELECT tipo FROM `persona` WHERE `id` = :id");
+            $parametros = array(":id" => $id);
+            $consulta->execute($parametros);
+            $resultado = $consulta->fetch();
+            $conexion = null;
+            return $resultado;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
    
 ?>

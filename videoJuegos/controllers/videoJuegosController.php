@@ -66,7 +66,6 @@ function modificar(){
         } else {
             $check = getimagesize($_FILES["avatar"]["tmp_name"]);
             if ($check !== false) {
-
                 $uploadOk = 1;
             } else {
                 $errorImagen = "El archivo no es una imagen";
@@ -120,8 +119,8 @@ function modificar(){
         if (empty($_POST["id"])){
             $resultado = insertaElemento($titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
             if ($resultado > 0) {
-                $errorEditar="Todo bien";
-                //header("Location: view.php?varId=$resultado");
+                //$errorEditar="Todo bien";
+                header("Location: index.php");
 
             }else{
                 $errorEditar = "Se produjo un error";
@@ -129,8 +128,8 @@ function modificar(){
         }else{
             $editado = editarElemento($id, $titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
             if ($editado && $error) {
-                $errorEditar="Todo bien";
-                //header("Location: index.php?controller=videoJuegos&action=juegoConcreto&varId=$id");
+                //$errorEditar="Todo bien";
+                header("Location: index.php?controller=videoJuegos&action=juegoConcreto&varId=$id");
             } else {
                 $errorEditar = "Se produjo un error";
             }
@@ -152,6 +151,55 @@ function borrar(){
     }
     include "./views/deleteView.php";
 }
+
+function login(){
+    require './models/videoJuegosModel.php';
+    session_start();
+    $error = "";
+    if (empty($_SESSION["tipo"])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $dni = $_POST["dni"];
+            $dni = strip_tags($dni);
+            $dni = stripslashes($dni);
+            $dni = htmlspecialchars($dni);
+    
+            $contrasenya = $_POST["pass"];
+            $contrasenya = strip_tags($contrasenya);
+            $contrasenya = stripslashes($contrasenya);
+            $contrasenya = htmlspecialchars($contrasenya);
+            
+            $personaIdContrasenya=comprobarContrasenay($dni);
+            //var_dump($personaIdContrasenya);
+            if ($personaIdContrasenya==false) {
+                echo "dni incorrecto";
+            } else{
+                if(password_verify($contrasenya,$personaIdContrasenya["contrasenya"])){
+                    //echo "dni y contraseña correctas";
+                    $id = $personaIdContrasenya["id"];
+                    $_SESSION["id"]= $id;
+                    $tipo = personaTipo($id);
+                    //var_dump($tipo);
+                    if (!empty($tipo)) {
+                        $_SESSION["tipo"]=$tipo["tipo"];
+                    }
+                    
+                    //echo $_SESSION["tipo"];
+                    //echo $_SESSION["tipo"]." ".$_SESSION["id"];
+                    header("Location: controlPanel.php");
+                }else{
+                    
+                    $error = "dni y contraseña incorrectas";
+                    //echo $_SESSION["tipo"]." ".$_SESSION["id"];
+                }    
+            }
+        }      
+    }else if (!empty($_SESSION["tipo"])) {
+        header("Location: controlPanel.php");
+        //echo $_SESSION["tipo"]." ".$_SESSION["id"];
+    }
+    include "./views/deleteView.php";
+}
+
 // function ejecutarForm(){
 //     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //         if (empty($_POST["id"])) {
