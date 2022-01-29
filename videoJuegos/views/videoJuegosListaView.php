@@ -13,7 +13,7 @@
         <ul>
             <li><a href="index.php">Página principal</a></li>
             <li><a href="index.php?controller=videoJuegos&action=mostraForm">Nuevo elemento</a></li>
-            <li><a class="active" href="index.php">Lista elementos</a></li>
+            <li><a class="active" href="index.php?controller=videoJuegos&action=listar">Lista elementos</a></li>
             <!-- <li><a href="import.php">Importar elementos</a></li>
             <li><a href="exportar.php">Exportar elementos</a></li> -->
 

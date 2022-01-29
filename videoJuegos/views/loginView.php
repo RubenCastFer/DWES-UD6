@@ -9,9 +9,9 @@
     <body>
 
         <h2>Inicia sesión</h2>
-            <form method="POST" action="index">
-                <p>DNI:</p>
-                <p><input type="text" placeholder="Ingrese su dni" name="dni"/></p>
+            <form method="POST" action="index.php?controller=usuarios&action=login">
+                <p>Usuario:</p>
+                <p><input type="text" placeholder="Ingrese su usuario" name="usuario"/></p>
                 <p>Password:</p>
                 <p><input type="password" placeholder="Ingrese su contraseña" name="pass"/></p>
                 <p><input type="submit" value="Iniciar Sesion" /></p>

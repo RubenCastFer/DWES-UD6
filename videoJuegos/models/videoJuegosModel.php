@@ -69,7 +69,8 @@
 
     function insertaElemento($titulo,$director,$desarrolladora,$precio,$nota,$lanzamiento,$imagen){
         try {
-            $conexion = crearConexion();            $consulta =$conexion->prepare("INSERT INTO juegos (Titulo, Director, Desarrolladora, Precio, Nota, Lanzamiento, Imagen) VALUES (:titulo, :director, :desarrolladora, :precio, :nota, :lanzamiento, :imagen)"); 
+            $conexion = crearConexion();            
+            $consulta =$conexion->prepare("INSERT INTO juegos (Titulo, Director, Desarrolladora, Precio, Nota, Lanzamiento, Imagen) VALUES (:titulo, :director, :desarrolladora, :precio, :nota, :lanzamiento, :imagen)"); 
             $parametros = array(":titulo"=>$titulo, ":director"=>$director, ":desarrolladora"=>$desarrolladora, ":precio"=>$precio, ":nota"=>$nota, ":lanzamiento"=>$lanzamiento, ":imagen"=>$imagen);
             $consulta->execute($parametros);
             $resultado=$conexion->lastInsertId();
@@ -80,12 +81,12 @@
             return false;
         }
     }
-    function comprobarContrasenay($dni){
+    function comprobarContrasenay($usuario){
 
         try {
-            $conexion = new PDO("mysql:host=$GLOBALS[servidor];dbname=$GLOBALS[baseDatos]", $GLOBALS['user'], $GLOBALS['pass']);
-            $consulta = $conexion->prepare("SELECT `id`, `contrasenya` FROM `persona` WHERE `nif` LIKE :dni");
-            $parametros = array(":dni" => $dni);
+            $conexion = crearConexion();
+            $consulta = $conexion->prepare("SELECT `id`, `contrasenya` FROM `usuarios` WHERE `nombre` LIKE :usuario");
+            $parametros = array(":usuario" => $usuario);
             $consulta->execute($parametros);
             $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
             $conexion = null;
@@ -98,8 +99,8 @@
     function personaTipo($id){
     
         try {
-            $conexion = new PDO("mysql:host=$GLOBALS[servidor];dbname=$GLOBALS[baseDatos]", $GLOBALS['user'], $GLOBALS['pass']);
-            $consulta = $conexion->prepare("SELECT tipo FROM `persona` WHERE `id` = :id");
+            $conexion = crearConexion();
+            $consulta = $conexion->prepare("SELECT tipo FROM `usuarios` WHERE `id` = :id");
             $parametros = array(":id" => $id);
             $consulta->execute($parametros);
             $resultado = $consulta->fetch();
