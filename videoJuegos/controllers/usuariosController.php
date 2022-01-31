@@ -1,7 +1,7 @@
 <?php
 function login()
 {
-    require './models/videoJuegosModel.php';
+    require './models/usuariosModel.php';
     session_start();
     //    session_destroy();
     $error = "";
@@ -45,7 +45,16 @@ function login()
         }
     } else if (!empty($_SESSION["tipo"]) && $_SESSION["tipo"] == "admin") {
         header("Location: index.php?controller=videoJuegos&action=listar");
+    } else{
+        session_destroy();
     }
     include "./views/loginView.php";
+}
+
+function cerrarSesion(){
+    session_start();
+    session_destroy();
+    header("Location: index.php?controller=usuarios&action=login");
+    
 }
 ?>
