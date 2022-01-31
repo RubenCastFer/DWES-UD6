@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/table.css">
     <title>Lista elementos</title>
 </head>
+
 <body>
     <nav>
         <ul>
@@ -15,12 +17,34 @@
             <li><a href="index.php?controller=videoJuegos&action=mostraForm">Nuevo elemento</a></li>
             <li><a class="active" href="index.php?controller=videoJuegos&action=listar">Lista elementos</a></li>
             <li><a href="index.php?controller=usuarios&action=cerrarSesion">Cerrar Sesion</a></li>
-            
+
             <!-- <li><a href="import.php">Importar elementos</a></li>
             <li><a href="exportar.php">Exportar elementos</a></li> -->
 
         </ul>
     </nav>
+
+    <!-- <script>
+        window.addEventListener("load",iniciar);
+
+        function iniciar(){
+            document.currentTarget.addEventListener("click",borrar);
+        }
+        function borrar(str) {
+            if (str == "") {
+                return;
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("txtHint").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET", "getuser.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script> -->
     <table class="styled-table">
         <thead>
             <tr>
@@ -34,24 +58,25 @@
             </tr>
         </thead>
         <tbody>
-            
-           <!-- Aquí tendrás que mostrar las filas de la tabla-->
-           <?php
-                
-                
-                foreach($juegos as $juego){
-                    echo "<tr> ";
-                    echo "<td>$juego[Titulo]</td>";
-                    echo "<td>$juego[Director]</td>";
-                    echo "<td>$juego[Precio]</td>";
-                    echo "<td>$juego[Lanzamiento]</td>";
-                    echo "<td><a href=index.php?controller=videoJuegos&action=juegoConcreto&varId=$juego[id]>Detalle</a></td>";
-                    echo "<td><a href=index.php?controller=videoJuegos&action=mostraForm&varId=$juego[id]>Editar</a></td>";
-                    echo "<td><a href=index.php?controller=videoJuegos&action=borrar&varId=$juego[id]>Borrar</a></td>";
-                    echo "</tr> ";
-                }   
+
+            <!-- Aquí tendrás que mostrar las filas de la tabla-->
+            <?php
+
+
+            foreach ($juegos as $juego) {
+                echo "<tr> ";
+                echo "<td>$juego[Titulo]</td>";
+                echo "<td>$juego[Director]</td>";
+                echo "<td>$juego[Precio]</td>";
+                echo "<td>$juego[Lanzamiento]</td>";
+                echo "<td><a href=index.php?controller=videoJuegos&action=juegoConcreto&varId=$juego[id]>Detalle</a></td>";
+                echo "<td><a href=index.php?controller=videoJuegos&action=mostraForm&varId=$juego[id]>Editar</a></td>";
+                echo "<td><a href=index.php?controller=videoJuegos&action=borrar&varId=$juego[id] class='borrar'>Borrar</a></td>";
+                echo "</tr> ";
+            }
             ?>
         </tbody>
     </table>
 </body>
+
 </html>

@@ -1,186 +1,162 @@
 <?php
+session_start();
+if ($_SESSION["tipo"] != "admin") {
+    header("Location: index.php?controller=usuarios&action=login");
+}
 //http://localhost/DWES/EJERCICIO_DE_CLASE/DWES-UD6/videoJuegos/index.php?controller=videoJuegos&action=listar
 function listar()
 {
     require './models/videoJuegosModel.php';
-    session_start();
-
-    if ($_SESSION["tipo"] == "admin") {
-        $juegos = obtenerTodos();
-    } else {
-        header("Location: index.php?controller=usuarios&action=login");
-    }
+    $juegos = obtenerTodos();
     include './views/videoJuegosListaView.php';
 }
 
 function juegoConcreto()
 {
     require './models/videoJuegosModel.php';
-    session_start();
-
-    if ($_SESSION["tipo"] == "admin") {
-        $juego = obtenerElemento($_GET['varId']);
-    } else {
-        header("Location: index.php?controller=usuarios&action=login");
-    }
+    $juego = obtenerElemento($_GET['varId']);
     include './views/videoJuegoConcretoView.php';
 }
 
 function mostraForm()
 {
     require './models/videoJuegosModel.php';
-    session_start();
+    $errorImagen = "";
+    $errorEditar = "";
 
-    if ($_SESSION["tipo"] == "admin") {
-        $errorImagen = "";
-        $errorEditar = "";
-
-        if (empty($_GET["varId"])) {
-            $resultado["id"] = "";
-            $resultado["Titulo"] = "";
-            $resultado["Director"] = "";
-            $resultado["Desarrolladora"] = "";
-            $resultado["Precio"] = "";
-            $resultado["Nota"] = "";
-            $resultado["Lanzamiento"] = "";
-            $resultado["Imagen"] = "";
-        } else {
-            $id = $_GET["varId"];
-            $resultado = obtenerElemento($id);
-        }
-        include './views/editView.php';
+    if (empty($_GET["varId"])) {
+        $resultado["id"] = "";
+        $resultado["Titulo"] = "";
+        $resultado["Director"] = "";
+        $resultado["Desarrolladora"] = "";
+        $resultado["Precio"] = "";
+        $resultado["Nota"] = "";
+        $resultado["Lanzamiento"] = "";
+        $resultado["Imagen"] = "";
     } else {
-        header("Location: index.php?controller=usuarios&action=login");
+        $id = $_GET["varId"];
+        $resultado = obtenerElemento($id);
     }
+    include './views/editView.php';
 }
 function modificar()
 {
     require './models/videoJuegosModel.php';
 
-    session_start();
 
-    if ($_SESSION["tipo"] == "admin") {
-        $imagen = "";
-        $error = true;
+    $imagen = "";
+    $error = true;
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["id"])) {
-                $id = "";
-            } else {
-                $id = $_POST["id"];
-                $resultado = obtenerElemento($id);
-            }
-
-
-            $target_dir = "images/";
-            $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-            if (empty($_FILES["avatar"]["name"])) {
-                $uploadOk = 0;
-                if (!empty($_POST["id"])) {
-                    $imagen = $resultado["Imagen"];
-                } else {
-                    $errorImagen = "La imagen no se ha añadido";
-                }
-            } else {
-                $check = getimagesize($_FILES["avatar"]["tmp_name"]);
-                if ($check !== false) {
-                    $uploadOk = 1;
-                } else {
-                    $errorImagen = "El archivo no es una imagen";
-                    $uploadOk = 0;
-                }
-                if (file_exists($target_file)) {
-                    $errorImagen = "El archivo ya existe";
-                    $uploadOk = 0;
-                    $imagen = $resultado["Imagen"];
-                }
-                if ($imageFileType != "png" && $imageFileType != "jpeg") {
-                    $errorImagen = "Solo formato .png o jpeg";
-                    $uploadOk = 0;
-                }
-                if ($uploadOk == 0) {
-                    $errorImagen = "La imagen no se pudo guardar";
-                    $error = false;
-                } else {
-                    if (move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
-                        $imagen = $_FILES["avatar"]["name"];
-                    } else {
-                        $errorImagen = "No se pudo guardar la imagen.";
-                        $error = false;
-                    }
-                }
-            }
-
-
-            $titulo = $_POST["titulo"];
-            $titulo = strip_tags($titulo);
-            $titulo = stripslashes($titulo);
-            $titulo = htmlspecialchars($titulo);
-
-            $director = $_POST["director"];
-            $director = strip_tags($director);
-            $director = stripslashes($director);
-            $director = htmlspecialchars($director);
-
-            $desarrolladora = $_POST["desarrolladora"];
-            $desarrolladora = strip_tags($desarrolladora);
-            $desarrolladora = stripslashes($desarrolladora);
-            $desarrolladora = htmlspecialchars($desarrolladora);
-
-            $precio = $_POST["precio"];
-
-            $nota = $_POST["nota"];
-
-            $lanzamiento = $_POST["lanzamiento"];
-
-
-            if (empty($_POST["id"])) {
-                $resultado = insertaElemento($titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
-                if ($resultado > 0) {
-                    //$errorEditar="Todo bien";
-                    header("Location: index.php");
-                } else {
-                    $errorEditar = "Se produjo un error";
-                }
-            } else {
-                $editado = editarElemento($id, $titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
-                if ($editado && $error) {
-                    //$errorEditar="Todo bien";
-                    header("Location: index.php?controller=videoJuegos&action=juegoConcreto&varId=$id");
-                } else {
-                    $errorEditar = "Se produjo un error";
-                }
-            }
-        }
-        include './views/editView.php';
-    } else {
-        header("Location: index.php?controller=usuarios&action=login");
-    }
-}
-
-function borrar()
-{
-    require './models/videoJuegosModel.php';
-    session_start();
-    if ($_SESSION["tipo"] == "admin") {
-        $id = $_GET["varId"];
-        $resultadoVista = obtenerElemento($id);
-        $resultadoEliminar = eliminarElemento($id);
-        $borrado = "";
-        if ($resultadoEliminar) {
-            $borrado = "Se ha eliminado el juego $resultadoVista[Titulo] con el id $id correctamente";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["id"])) {
+            $id = "";
         } else {
-            $borrado = "No se ha eliminado el juego $resultadoVista[Titulo] con el id $id";
+            $id = $_POST["id"];
+            $resultado = obtenerElemento($id);
         }
-    } else {
-        header("Location: index.php?controller=usuarios&action=login");
+
+
+        $target_dir = "images/";
+        $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        if (empty($_FILES["avatar"]["name"])) {
+            $uploadOk = 0;
+            if (!empty($_POST["id"])) {
+                $imagen = $resultado["Imagen"];
+            } else {
+                $errorImagen = "La imagen no se ha añadido";
+            }
+        } else {
+            $check = getimagesize($_FILES["avatar"]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $errorImagen = "El archivo no es una imagen";
+                $uploadOk = 0;
+            }
+            if (file_exists($target_file)) {
+                $errorImagen = "El archivo ya existe";
+                $uploadOk = 0;
+                $imagen = $resultado["Imagen"];
+            }
+            if ($imageFileType != "png" && $imageFileType != "jpeg") {
+                $errorImagen = "Solo formato .png o jpeg";
+                $uploadOk = 0;
+            }
+            if ($uploadOk == 0) {
+                $errorImagen = "La imagen no se pudo guardar";
+                $error = false;
+            } else {
+                if (move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
+                    $imagen = $_FILES["avatar"]["name"];
+                } else {
+                    $errorImagen = "No se pudo guardar la imagen.";
+                    $error = false;
+                }
+            }
+        }
+
+
+        $titulo = $_POST["titulo"];
+        $titulo = strip_tags($titulo);
+        $titulo = stripslashes($titulo);
+        $titulo = htmlspecialchars($titulo);
+
+        $director = $_POST["director"];
+        $director = strip_tags($director);
+        $director = stripslashes($director);
+        $director = htmlspecialchars($director);
+
+        $desarrolladora = $_POST["desarrolladora"];
+        $desarrolladora = strip_tags($desarrolladora);
+        $desarrolladora = stripslashes($desarrolladora);
+        $desarrolladora = htmlspecialchars($desarrolladora);
+
+        $precio = $_POST["precio"];
+
+        $nota = $_POST["nota"];
+
+        $lanzamiento = $_POST["lanzamiento"];
+
+
+        if (empty($_POST["id"])) {
+            $resultado = insertaElemento($titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
+            if ($resultado > 0) {
+                //$errorEditar="Todo bien";
+                header("Location: index.php");
+            } else {
+                $errorEditar = "Se produjo un error";
+            }
+        } else {
+            $editado = editarElemento($id, $titulo, $director, $desarrolladora, $precio, $nota, $lanzamiento, $imagen);
+            if ($editado && $error) {
+                //$errorEditar="Todo bien";
+                header("Location: index.php?controller=videoJuegos&action=juegoConcreto&varId=$id");
+            } else {
+                $errorEditar = "Se produjo un error";
+            }
+        }
     }
-    include "./views/deleteView.php";
+    include './views/editView.php';
 }
 
+// function borrar()
+// {
+//     require './models/videoJuegosModel.php';
+//     $id = $_GET["varId"];
+//     $resultadoVista = obtenerElemento($id);
+//     $resultadoEliminar = eliminarElemento($id);
+//     $borrado = "";
+//     if ($resultadoEliminar) {
+//         $borrado = "Se ha eliminado el juego $resultadoVista[Titulo] con el id $id correctamente";
+//     } else {
+//         $borrado = "No se ha eliminado el juego $resultadoVista[Titulo] con el id $id";
+//     }
+
+//     include "./views/deleteView.php";
+// }
 
 // function ejecutarForm(){
 //     if ($_SERVER["REQUEST_METHOD"] == "POST") {
